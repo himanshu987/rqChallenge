@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -23,11 +24,12 @@ public class EmployeeService {
     @Retry(name = "employeeFetchRetry", fallbackMethod = "com.reliaquest.api.fallback.EmployeeServiceFallback.getAllEmployeesFallback")
     public List<Employee> getAllEmployees() {
         log.info("Getting all employees from external service");
-        final var employees = employeeWebClient.getAllEmployees().data();
-        if (employees.isEmpty()) {
-            log.debug("No employees found");
-            throw new EmployeeApiException(EmployeeAPIError.NO_EMPLOYEES_FOUND);
-        }
+        final var employees = Optional.ofNullable(employeeWebClient.getAllEmployees().data())
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(() -> {
+                    log.debug("No employees found");
+                    return new EmployeeApiException(EmployeeAPIError.NO_EMPLOYEES_FOUND);
+                });
         log.info("Successfully fetched all employees: {}", employees);
         return employees;
     }
