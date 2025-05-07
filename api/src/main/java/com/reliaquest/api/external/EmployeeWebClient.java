@@ -23,4 +23,13 @@ public class EmployeeWebClient {
                 .bodyToMono(EmployeeResponse.class)
                 .block();
     }
+
+    public EmployeeResponse getEmployeeById(String id) {
+        return webClient
+                .get()
+                .uri(EMPLOYEE_URI + "/" + id)
+                .retrieve()
+                .bodyToMono(EmployeeResponse.class)
+                .block();
+    }
 }

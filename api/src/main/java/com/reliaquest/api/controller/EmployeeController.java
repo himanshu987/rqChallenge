@@ -36,4 +36,21 @@ public class EmployeeController implements IEmployeeController {
     }
 
 
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable String id) {
+        log.info("Fetching employee with id : {}",id);
+        return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/employee/highest-salary")
+    public ResponseEntity<Integer> getHighestSalaryOfEmployees() {
+        log.info("Fetching highest salary among all employees ");
+        return new ResponseEntity<>(employeeService.getEmployeeWithHighestSalary(), HttpStatus.OK);
+    }
+
+    @GetMapping("/employee/top-10-highest-earning")
+    public ResponseEntity<List<String>> getTopTenHighestEarningEmployeeNames() {
+        log.info("Fetching top ten highest salaried employees");
+        return new ResponseEntity<>(employeeService.getTopTenHighestEarningEmployees(), HttpStatus.OK);
+    }
 }

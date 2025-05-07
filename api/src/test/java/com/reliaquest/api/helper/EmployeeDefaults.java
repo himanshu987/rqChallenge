@@ -129,5 +129,21 @@ public class EmployeeDefaults {
                 .build();
     }
 
+    public static Employee defaultEmployeeWithId(String id) {
+        return Employee.builder()
+                .id(id)
+                .name("John Doe")
+                .salary(50000)
+                .age(30)
+                .title("Software Engineer")
+                .email("john.doe@example.com")
+                .build();
+    }
 
+    public static EmployeeResponse defaultEmployeeResponseWithId(String id) {
+        return EmployeeResponse.builder()
+                .data(List.of(defaultEmployeeWithId(id)))
+                .status("success")
+                .build();
+    }
 }
