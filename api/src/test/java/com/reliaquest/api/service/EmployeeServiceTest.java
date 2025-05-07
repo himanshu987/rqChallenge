@@ -1,18 +1,16 @@
 package com.reliaquest.api.service;
 
 import com.reliaquest.api.external.EmployeeWebClient;
-import com.reliaquest.api.model.Employee;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-
 import static com.reliaquest.api.helper.EmployeeDefaults.defaultEmployeeResponse;
 import static com.reliaquest.api.helper.EmployeeDefaults.defaultEmployees;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,5 +33,12 @@ class EmployeeServiceTest {
 
         assertThat(result).isEqualTo(defaultEmployees());
         verify(employeeWebClient, times(1)).getAllEmployees();
+    }
+
+    @Test
+    void shouldFallbackWhenExceptionOccurs() {
+        when(employeeWebClient.getAllEmployees()).thenThrow(new RuntimeException("API error"));
+
+        assertThrows(RuntimeException.class, () -> employeeService.getAllEmployees());
     }
 }

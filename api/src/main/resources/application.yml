@@ -3,3 +3,12 @@ server.port: 8111
 employee:
   api:
     url: http://localhost:8112/api/v1
+resilience4j:
+  retry:
+    instances:
+      employeeFetchRetry:
+        max-attempts: 5
+        wait-duration: 15000ms
+        enable-exponential-backoff: true
+        exponential-backoff-base: 2
+        exponential-backoff-max-duration: 10000ms
