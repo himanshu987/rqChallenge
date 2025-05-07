@@ -3,7 +3,11 @@ plugins {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.projectlombok:lombok:1.18.36'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.github.tomakehurst:wiremock-standalone:2.27.2'
+    testImplementation "org.assertj:assertj-core:3.26.3"
 }
 
 springBoot {
