@@ -1,8 +1,8 @@
 package com.reliaquest.api.external;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.reliaquest.api.model.EmployeeResponse;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.reliaquest.api.helper.EmployeeDefaults.defaultEmployeeResponse;
-import static com.reliaquest.api.helper.EmployeeWebClientDefaults.defaultClientResponse;
+import static com.reliaquest.api.helper.EmployeeDefaults.defaultEmployees;
+import static com.reliaquest.api.helper.EmployeeWebClientDefaults.buildJsonResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,10 +39,10 @@ class EmployeeWebClientTest {
     }
 
     @Test
-    void shouldCallAllEmployee() {
+    void shouldCallAllEmployee() throws JsonProcessingException {
         wireMockServer.stubFor(
                 get(urlEqualTo("/employee"))
-                        .willReturn(ok(defaultClientResponse())
+                        .willReturn(ok(buildJsonResponse(defaultEmployees()))
                                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         );
 

@@ -33,4 +33,20 @@ public class EmployeeService {
         log.info("Successfully fetched all employees: {}", employees);
         return employees;
     }
+
+
+    public List<Employee> getEmployeesByNameSearch(String employeeName) {
+        var filteredEmployees = employeeWebClient.getAllEmployees().data()
+                .stream()
+                .filter(employee -> employee.name().toLowerCase().contains(employeeName.toLowerCase()))
+                .toList();
+        if (filteredEmployees.isEmpty()) {
+            log.debug("No employees found with name: {}", employeeName);
+            throw new EmployeeApiException(EmployeeAPIError.NO_EMPLOYEES_FOUND);
+        }
+        log.info("Successfully fetched employees with name: {}: {}", employeeName, filteredEmployees);
+        return filteredEmployees;
+    }
+
+
 }

@@ -52,4 +52,28 @@ class EmployeeServiceTest {
         EmployeeApiException exception = assertThrows(EmployeeApiException.class, () -> employeeService.getAllEmployees());
         assertThat(exception.getError()).isEqualTo(EmployeeAPIError.NO_EMPLOYEES_FOUND);
     }
+
+    @Test
+    void shouldReturnFilteredEmployeesWhenNameMatches() {
+        final String employeeName = "John Doe";
+        var mockResponse = defaultEmployeeResponse();
+        when(employeeWebClient.getAllEmployees()).thenReturn(mockResponse);
+
+        var result = employeeService.getEmployeesByNameSearch(employeeName);
+
+        assertThat(result).isNotEmpty();
+        assertThat(result).allMatch(employee -> employee.name().toLowerCase().contains(employeeName.toLowerCase()));
+        verify(employeeWebClient, times(1)).getAllEmployees();
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNoEmployeesMatchName() {
+        var mockResponse = defaultEmployeeResponse();
+        when(employeeWebClient.getAllEmployees()).thenReturn(mockResponse);
+
+        EmployeeApiException exception = assertThrows(EmployeeApiException.class,
+                () -> employeeService.getEmployeesByNameSearch("NonExistentName"));
+
+        assertThat(exception.getError()).isEqualTo(EmployeeAPIError.NO_EMPLOYEES_FOUND);
+    }
 }
