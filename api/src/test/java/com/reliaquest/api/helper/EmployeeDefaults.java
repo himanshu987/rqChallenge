@@ -24,5 +24,12 @@ public class EmployeeDefaults {
                 .build();
     }
 
+    public static EmployeeResponse emptyEmployeeResponse(){
+        return EmployeeResponse.builder()
+                .data(List.of())
+                .status("success")
+                .build();
+    }
+
 
 }
