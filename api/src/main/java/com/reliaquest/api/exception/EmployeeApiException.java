@@ -6,7 +6,7 @@ import lombok.Getter;
 public class EmployeeApiException extends RuntimeException {
     private final EmployeeAPIError error;
 
-    public EmployeeApiException(EmployeeAPIError error){
+    public EmployeeApiException(EmployeeAPIError error) {
         super(error.getMessage());
         this.error = error;
     }

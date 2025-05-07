@@ -2,7 +2,7 @@ package com.reliaquest.api.helper;
 
 import com.reliaquest.api.model.Employee;
 import com.reliaquest.api.model.EmployeeResponse;
-
+import com.reliaquest.api.model.EmployeesResponse;
 import java.util.List;
 
 public class EmployeeDefaults {
@@ -111,22 +111,18 @@ public class EmployeeDefaults {
                         .age(34)
                         .title("HR Manager")
                         .email("karen.white@example.com")
-                        .build()
-        );
+                        .build());
     }
 
-    public static EmployeeResponse defaultEmployeeResponse(){
-        return EmployeeResponse.builder()
+    public static EmployeesResponse defaultEmployeesResponse() {
+        return EmployeesResponse.builder()
                 .data(defaultEmployees())
                 .status("success")
                 .build();
     }
 
-    public static EmployeeResponse emptyEmployeeResponse(){
-        return EmployeeResponse.builder()
-                .data(List.of())
-                .status("success")
-                .build();
+    public static EmployeesResponse emptyEmployeesResponse() {
+        return EmployeesResponse.builder().data(List.of()).status("success").build();
     }
 
     public static Employee defaultEmployeeWithId(String id) {
@@ -140,10 +136,32 @@ public class EmployeeDefaults {
                 .build();
     }
 
-    public static EmployeeResponse defaultEmployeeResponseWithId(String id) {
-        return EmployeeResponse.builder()
+    public static EmployeesResponse defaultEmployeeResponseWithId(String id) {
+        return EmployeesResponse.builder()
                 .data(List.of(defaultEmployeeWithId(id)))
                 .status("success")
                 .build();
+    }
+
+    public static Employee defaultEmployee() {
+        return Employee.builder()
+                .id("1")
+                .name("John Doe")
+                .salary(50000)
+                .age(30)
+                .title("Software Engineer")
+                .email("john.doe@example.com")
+                .build();
+    }
+
+    public static EmployeeResponse defaultEmployeeResponse() {
+        return EmployeeResponse.builder()
+                .data(defaultEmployee())
+                .status("success")
+                .build();
+    }
+
+    public static EmployeeResponse emptyEmployeeResponse() {
+        return EmployeeResponse.builder().data(null).status("success").build();
     }
 }
